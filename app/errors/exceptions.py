@@ -1,8 +1,5 @@
 from fastapi.exceptions import HTTPException
-from fastapi.responses import JSONResponse
-from fastapi import status, Request
-
-from .err_models import ErrorResponseModel
+from fastapi import status
 
 
 class UserExistsException(HTTPException):
@@ -44,17 +41,3 @@ class NotFoundException(HTTPException):
     ):
         self.error_code = error_code
         super().__init__(status_code=status_code, detail=message)
-
-
-def not_fount_handler(request: Request, exc: UserExistsException):
-    error = ErrorResponseModel(
-        status_code=exc.status_code, message=exc.detail, error_code=exc.error_code
-    ).model_dump()
-    return JSONResponse(status_code=exc.status_code, content=error)
-
-
-def bad_jwt_handler(request: Request, exc: BadJWTException):
-    error = ErrorResponseModel(
-        status_code=exc.status_code, message=exc.detail, error_code=exc.error_code
-    ).model_dump()
-    return JSONResponse(status_code=exc.status_code, content=error)
