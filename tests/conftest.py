@@ -5,7 +5,7 @@ from app.configs import settings
 from app.db import Base, get_session
 from main import app
 
-TEST_DATABASE_URL = settings.TEST_DATABASE_URL
+TEST_DATABASE_URL = settings.db_url
 
 test_engine = create_async_engine(TEST_DATABASE_URL, echo=True)
 TestSession = async_sessionmaker(bind=test_engine, expire_on_commit=False)

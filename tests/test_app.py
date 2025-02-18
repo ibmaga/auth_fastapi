@@ -15,11 +15,11 @@ async def test_process():
         assert response.status_code == 400
         # assert "access_token" in response.json()
 
-        response = await ac.get("/auth/users/muhammad")
+        response = await ac.get("/users/muhammad")
 
         assert response.status_code == 200
         assert response.json() == data
 
-        response = await ac.get("/auth/users/maam")
+        response = await ac.get("/users/maam")
 
         assert response.status_code == 404
