@@ -1,19 +1,13 @@
 from fastapi import FastAPI
 import logfire
 
-from app.errors import (
-    UserExistsException,
-    not_fount_handler,
-    BadJWTException,
-    bad_jwt_handler,
-)
-from app.api.routes import auth
+from app.api.routes.auth import router as auth_router
+from app.api.routes.users import router as users_router
+
 
 app = FastAPI()
 logfire.configure()
 logfire.instrument_fastapi(app)
 
-app.add_exception_handler(UserExistsException, not_fount_handler)
-app.add_exception_handler(BadJWTException, bad_jwt_handler)
-
-app.include_router(auth.router)
+app.include_router(auth_router)
+app.include_router(users_router)

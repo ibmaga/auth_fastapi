@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
 from app.errors import NotFoundException, UserExistsException
-from app.api.schemas import UserFull
+from app.api.schemas.user import User
 
 
 class ICRUD(ABC):
@@ -17,7 +17,7 @@ class ICRUD(ABC):
         pass
 
     @abstractmethod
-    async def update_user(self, username: str, user: UserFull):
+    async def update_user(self, username: str, user: User):
         pass
 
 
@@ -32,7 +32,7 @@ class CRUD(ICRUD):
         try:
             self.session.add(user_db)
         except IntegrityError:
-            raise UserExistsException()
+            raise UserExistsException
 
     async def get_user(self, username: str):
         user = await self.session.get(self.model, username)
@@ -40,7 +40,7 @@ class CRUD(ICRUD):
             return user
         raise NotFoundException
 
-    async def update_user(self, username: str, user: UserFull):
+    async def update_user(self, username: str, user: User):
         user_db = await self.session.get(self.model, username)
 
         if user_db:

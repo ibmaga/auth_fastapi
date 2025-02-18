@@ -1,5 +1,5 @@
+from app.api.schemas.user import User, UserFromDB
 from app.utils.unitofwork import IUnitOfWork
-from app.api.schemas import UserFull
 
 
 class CRUDService:
@@ -16,9 +16,9 @@ class CRUDService:
         async with self.uow:
             result = await self.uow.crud.get_user(username)
             await self.uow.commit()
-            return UserFull.model_validate(result)
+            return UserFromDB.model_validate(result)
 
     async def update_user(self, username: str, user: dict):
         async with self.uow:
-            await self.uow.crud.update_user(username, UserFull(**user))
+            await self.uow.crud.update_user(username, User(**user))
             await self.uow.commit()

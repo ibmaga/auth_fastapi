@@ -13,7 +13,7 @@ class Base(DeclarativeBase):
     pass
 
 
-DATABASE_URL = settings.DATABASE_URL
+DATABASE_URL = settings.db_url
 
 engine: AsyncEngine = create_async_engine(DATABASE_URL, echo=True)
 async_session = async_sessionmaker(engine, expire_on_commit=False)
